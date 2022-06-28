@@ -49,6 +49,9 @@
      .card-title{
         @apply truncate text-slate-300 font-medium
      }
+     .btn-primary{
+        @apply bg-red-500 text-slate-300 font-bold py-1 mt-3 rounded-sm px-3 w-full
+     }
 }
 
 

@@ -115,13 +115,15 @@ const products = [
   // More products...
 ];
 
-const Home: React.FC<product[]> = (props) => {
+const Home: React.FC<props> = (props) => {
+  const { data } = props;
+  console.log("props", props);
   const fetchData = async () => {
     try {
       const res = await baseAxios.get("/products");
       console.log(res);
     } catch (err: any) {
-      // throw new Error(err);
+      throw new Error(err);
       console.log(err);
     }
   };
@@ -133,11 +135,11 @@ const Home: React.FC<product[]> = (props) => {
   return (
     <div className="container px-3">
       <div className="py-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-3">
-        {products.map((item, i) => (
+        {data.map((item, i) => (
           <div className="card" key={i}>
             <div className="relative w-25 h-40">
               <Image
-                src={item.imageSrc}
+                src={item.image}
                 objectFit="cover"
                 objectPosition={"center"}
                 className="w-full myClass object-cover hover:scale-110 transition"
@@ -146,15 +148,17 @@ const Home: React.FC<product[]> = (props) => {
               />
             </div>
             <div className="card-body">
-              <div className="card-title">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Nesciunt illum quas perferendis optio, delectus molestiae, modi
-                officiis, provident dolor voluptates inventore ducimus minima
-                cupiditate beatae quidem obcaecati laboriosam praesentium
-                magnam?
+              <div className="card-title">{item.title}</div>
+              <div className="font-bold text-slate-400">${item.price}</div>
+              <div className="flex justify-between">
+                <div className="text-sm text-slate-200 font-semibold">
+                  {item.rating.rate}
+                </div>
+                <div className="font-semibold text-slate-200 text-sm">
+                  {item.rating.count}
+                </div>
               </div>
-              <div className="card-title">Lorem ipsum dolor</div>
-              <div className="card-title"></div>
+              <button className="btn-primary"> Add to Cart</button>
               <div className="card-title"></div>
             </div>
           </div>
@@ -194,6 +198,10 @@ export interface product {
   rating: Rating;
 }
 
+export interface props {
+  data: product[];
+}
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
   let initialData: product[] = [];
   try {
@@ -201,7 +209,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     initialData = res.data;
     console.log(res);
   } catch (err: any) {
-    // throw new Error(err.message);
+    throw new Error(err.message);
   }
 
   return {
