@@ -18,7 +18,7 @@ const Header: React.FC = () => {
     <>
       <header
         className={`bg-slate-900 header-section transition-all top-0 ${
-          isStickyHeader ? "is-sticky" : ""
+          isStickyHeader ? "is-sticky" : "relative"
         }`}
       >
         <div className="container py-4 px-3">
