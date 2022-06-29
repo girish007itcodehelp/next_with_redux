@@ -5,29 +5,9 @@ import {
   configureStore,
   ThunkAction,
 } from "@reduxjs/toolkit";
+import { productsSlice } from "./slices/homeProductsSlice";
 import { pokemonSlice } from "./slices/pokemonSlice";
 
-interface Pokemon {
-  id: number;
-  name: string;
-  image: string;
-}
-
-export type PokemonState = {
-  pokemon: Pokemon[];
-  search: string;
-  filteredPokemon: Pokemon[];
-  pending: boolean;
-  error: boolean;
-};
-
-const initialState: PokemonState = {
-  pokemon: [],
-  filteredPokemon: [],
-  search: "",
-  pending: false,
-  error: false,
-};
 
 // export const getPokemon = createAsyncThunk("pokemon/getPokemon", async () => {
 //   const response = await fetch(
@@ -85,6 +65,7 @@ export default function getStore(incomingPreloadState?: RootState) {
   store = configureStore({
     reducer: {
       pokemon: pokemonSlice.reducer,
+      products: productsSlice.reducer
     },
     preloadedState: incomingPreloadState,
   });

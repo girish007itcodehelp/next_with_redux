@@ -1,141 +1,25 @@
 import type { GetServerSideProps, NextPage } from "next";
 import Image from "next/image";
 import baseAxios from "@baseApi/base";
-import { useEffect } from "react";
+import { Key, useEffect } from "react";
+import getStore from "redux/store";
+import { getProducts, MultProducts } from "redux/slices/homeProductsSlice";
+import { useDispatch, useSelector } from "react-redux";
 
-const products = [
-  {
-    id: 1,
-    name: "Throwback Hip Bag",
-    href: "#",
-    color: "Salmon",
-    price: "$90.00",
-    quantity: 1,
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg",
-    imageAlt:
-      "Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.",
-  },
-  {
-    id: 2,
-    name: "Medium Stuff Satchel",
-    href: "#",
-    color: "Blue",
-    price: "$32.00",
-    quantity: 1,
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg",
-    imageAlt:
-      "Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.",
-  },
-  {
-    id: 2,
-    name: "Medium Stuff Satchel",
-    href: "#",
-    color: "Blue",
-    price: "$32.00",
-    quantity: 1,
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg",
-    imageAlt:
-      "Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.",
-  },
-  {
-    id: 2,
-    name: "Medium Stuff Satchel",
-    href: "#",
-    color: "Blue",
-    price: "$32.00",
-    quantity: 1,
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg",
-    imageAlt:
-      "Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.",
-  },
-  {
-    id: 2,
-    name: "Medium Stuff Satchel",
-    href: "#",
-    color: "Blue",
-    price: "$32.00",
-    quantity: 1,
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg",
-    imageAlt:
-      "Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.",
-  },
-  {
-    id: 2,
-    name: "Medium Stuff Satchel",
-    href: "#",
-    color: "Blue",
-    price: "$32.00",
-    quantity: 1,
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg",
-    imageAlt:
-      "Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.",
-  },
-  {
-    id: 2,
-    name: "Medium Stuff Satchel",
-    href: "#",
-    color: "Blue",
-    price: "$32.00",
-    quantity: 1,
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg",
-    imageAlt:
-      "Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.",
-  },
-  {
-    id: 2,
-    name: "Medium Stuff Satchel",
-    href: "#",
-    color: "Blue",
-    price: "$32.00",
-    quantity: 1,
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg",
-    imageAlt:
-      "Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.",
-  },
-  {
-    id: 2,
-    name: "Medium Stuff Satchel",
-    href: "#",
-    color: "Blue",
-    price: "$32.00",
-    quantity: 1,
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg",
-    imageAlt:
-      "Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.",
-  },
-  // More products...
-];
+const Home: React.FC = () => {
+  // const { data } = props;
+  // const dispatch = useDispatch();
+  // let data: any = [];
+  const data = useSelector(MultProducts);
 
-const Home: React.FC<props> = (props) => {
-  const { data } = props;
-  console.log("props", props);
-  const fetchData = async () => {
-    try {
-      const res = await baseAxios.get("/products");
-      console.log(res);
-    } catch (err: any) {
-      throw new Error(err);
-      console.log(err);
-    }
-  };
   useEffect(() => {
-    fetchData();
-    // console.log(props);
-  }, []);
+    console.log("data", data);
+  }, [data]);
 
   return (
     <div className="container px-3">
       <div className="py-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-3">
-        {data.map((item, i) => (
+        {data?.map((item: any, i: Key) => (
           <div className="card" key={i}>
             <div className="relative w-25 h-40">
               <Image
@@ -183,38 +67,43 @@ export default Home;
 //   title: String;
 //   }
 // ]
-export interface Rating {
-  rate: number;
-  count: number;
-}
 
-export interface product {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  image: string;
-  rating: Rating;
-}
+// export interface product {
+//   id: number;
+//   title: string;
+//   price: number;
+//   description: string;
+//   category: string;
+//   image: string;
+//   rating: Rating;
+// }
 
-export interface props {
-  data: product[];
-}
+// export interface props {
+//   data: product[];
+// }
 
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+//   let initialData: product[] = [];
+//   try {
+//     const res = await baseAxios.get<product[]>("/products");
+//     initialData = res.data;
+//     console.log(res);
+//   } catch (err: any) {
+//     throw new Error(err.message);
+//   }
+
+//   return {
+//     props: {
+//       data: initialData,
+//     }, // will be passed to the page component as props
+//   };
+// };
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  let initialData: product[] = [];
-  try {
-    const res = await baseAxios.get<product[]>("/products");
-    initialData = res.data;
-    console.log(res);
-  } catch (err: any) {
-    throw new Error(err.message);
-  }
-
+  const store = getStore();
+  await store.dispatch(getProducts());
   return {
     props: {
-      data: initialData,
-    }, // will be passed to the page component as props
+      initialState: store.getState(),
+    },
   };
 };
